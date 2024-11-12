@@ -1,0 +1,28 @@
+<html>
+    <body>
+        <h1>Employees</h1>
+        {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+        <table>
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ employee["id"] }}</td>
+                    <td>{{ employee["name"] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        {% from "_formhelpers.html" import render_field %}
+        <form method="post">
+            <dl>
+              {{ render_field(form.name) }}
+            </dl>
+            <p><input type="submit" value="Save">
+          </form>
+    </body>
+</html>

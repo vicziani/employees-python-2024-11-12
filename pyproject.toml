@@ -1,0 +1,21 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=75.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "employees"
+version = "1.0.0"
+dependencies = [
+    "Flask",
+    "psycopg[binary,pool]",
+    "Flask-WTF"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-mock",
+    "requests"
+]
