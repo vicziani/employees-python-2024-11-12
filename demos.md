@@ -216,6 +216,12 @@ VSCode Extension: PlantUML
 
 Alt + D
 
+## GitHub push
+
+```sh
+gh repo create employees-python-2024-11-12 --public --source=. --remote=origin --push
+```
+
 ## GitHub CLI
 
 Windows PowerShell - adminisztrátor
@@ -247,7 +253,3 @@ gh act push
 ```
 
 Medium
-
-```sh
-gh repo create employees-python-2024-11-12 --public --source=. --remote=origin --push
-```
