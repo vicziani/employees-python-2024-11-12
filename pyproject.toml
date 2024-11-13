@@ -15,7 +15,11 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    "build",
     "pytest",
     "pytest-mock",
-    "requests"
+    "requests",
+    "selenium",
+    "webdriver-manager",
+    "mkdocs"
 ]

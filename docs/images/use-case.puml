@@ -1,0 +1,4 @@
+@startuml Use case diagram
+:User: --> (Add employee)
+:User: --> (List employees)
+@enduml

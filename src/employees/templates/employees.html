@@ -4,7 +4,7 @@
         {% with messages = get_flashed_messages() %}
   {% if messages %}
     {% for message in messages %}
-      {{ message }}
+      <p id="message-paragraph">{{ message }}</p>
     {% endfor %}
   {% endif %}
 {% endwith %}
@@ -22,7 +22,7 @@
             <dl>
               {{ render_field(form.name) }}
             </dl>
-            <p><input type="submit" value="Save">
+            <p><input id="submit-input" type="submit" value="Save">
           </form>
     </body>
 </html>
