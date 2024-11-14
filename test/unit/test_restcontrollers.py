@@ -13,7 +13,10 @@ def test_find_all(client, mocker):
 
     mocker.patch(
         "employees.repo.find_all",
-        return_value=[{"id": 1, "name": "Jack Doe"}, {"id": 2, "name": "Jane Doe"}],
+        return_value=[
+            {"id": 1, "name": "Jack Doe"},
+            {"id": 2, "name": "Jane Doe"},
+        ],
     )
 
     response = client.get("/api/employees")

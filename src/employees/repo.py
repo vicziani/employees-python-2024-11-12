@@ -6,7 +6,10 @@ def sql(funct):
     def wrap_function(*args, **kwargs):
         host = current_app.config.get("DATABASE_HOST")
         with psycopg.connect(
-            user="employees", password="employees", host=host, dbname="employees"
+            user="employees",
+            password="employees",
+            host=host,
+            dbname="employees",
         ) as conn:
             kwargs["conn"] = conn
             return funct(*args, **kwargs)
@@ -19,7 +22,8 @@ def init(conn=None):
     with current_app.app_context():
         with conn.cursor() as cursor:
             cursor.execute(
-                "create table if not exists employees (id serial not null primary key, emp_name varchar(255))"
+                """create table if not exists employees
+                    (id serial not null primary key, emp_name varchar(255))"""
             )
 
 
