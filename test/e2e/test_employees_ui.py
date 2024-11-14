@@ -4,6 +4,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 import os
 
+
 def test_create():
     DEFAULT_URL = "http://localhost:5000"
     url = os.getenv("EMPLOYEES_URL", DEFAULT_URL)

@@ -17,4 +17,3 @@ jobs:
                 python -m pip install -c constraints.txt .[dev]
             - name: Run unit tests
               run: python -m pytest -v test/unit/
-            
