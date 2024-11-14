@@ -35,7 +35,7 @@ venv\Scripts\activate
 
 > A collection of tutorials and references to help you distribute and install Python packages with modern tools.
 
-> The authoritative resource on how to package, publish, and install Python projects using current tools. 
+> The authoritative resource on how to package, publish, and install Python projects using current tools.
 
 Karbantartja: [Python Packaging Authority](https://www.pypa.io/en/latest/) munkacsoport
 
@@ -47,7 +47,7 @@ Python nyelv hivatalos fejlesztési javaslatainak rendszere, egyfajta útmutató
 * Python module: Python file
 * Import package: könyvtár, mely Python fájlokat tartalmazhat
 * Source Distribution, _sdist_, tömörített fájl (pl. `tar.gz`), mely több könyvtárat és fájlt tartalmazhat (import package és module), önmagában nem használható, build kell hozzá
-* Build Distribution, önmagában is használható, egyszerűen oda kell másolni. 
+* Build Distribution, önmagában is használható, egyszerűen oda kell másolni.
 * Wheel egy standard bináris Build Distribution. Hatékonyabb, mint a Source Distribution Package
 * Best practice mindkét Distribution előállítása és publikálása
 
@@ -161,7 +161,7 @@ docker run -d -e POSTGRES_DB=employees -e POSTGRES_USER=employees  -e POSTGRES_P
 ```
 
 ```sh
-flask --app employees run --debug  
+flask --app employees run --debug
 ```
 
 ## Tesztelés
@@ -206,7 +206,15 @@ python -m pytest -v test/e2e/test_employees_ui.py
 
 ## Statikus kódellenőrzés
 
+## pre-commit
 
+[pre-commit](https://pre-commit.com/)
+
+> Multi-language package manager for pre-commit hook
+
+```sh
+pre-commit run --all-files
+```
 
 ## Dokumentáció
 
@@ -238,7 +246,7 @@ gh auth login
 
 Javasolt Visual Studio Code extension: GitHub Actions
 
-## Act
+### Act
 
 ```sh
 gh extension install https://github.com/nektos/gh-act
@@ -253,3 +261,14 @@ gh act push
 ```
 
 Medium
+
+### venv
+
+* Minden step új bash shell-t indít
+* Be kell állítani, hogy a `venv/bin` könyvtár mindig benne legyen a path-ban
+
+```yaml
+echo ".venv/bin" >> $GITHUB_PATH
+```
+
+* Viszont be kell állítani, hogy innentől ezt a könyvtárat kell cache-elni, valamint hogy mely állományok változásakor kell update-elni a cache-t

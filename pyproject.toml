@@ -21,5 +21,6 @@ dev = [
     "requests",
     "selenium",
     "webdriver-manager",
+    "pre-commit",
     "mkdocs"
 ]
