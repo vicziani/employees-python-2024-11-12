@@ -282,6 +282,8 @@ Markdown dokumentumokban lévő kódokat is tud kezelni
 
 > Multi-language package manager for pre-commit hook
 
+[Pár előre gyártott hook](https://github.com/pre-commit/pre-commit-hooks)
+
 ```sh
 pre-commit run --all-files
 ```
