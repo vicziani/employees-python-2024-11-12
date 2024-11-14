@@ -206,7 +206,77 @@ python -m pytest -v test/e2e/test_employees_ui.py
 
 ## Statikus kódellenőrzés
 
-## pre-commit
+## Statikus kódellenőrző eszközök
+
+* Black: kódformázás
+* Flake8: PEP8 és clean code
+* Mypy: statikus típusellenőrzés
+* Pylint: részletes kódminőség ellenőrzés
+* isort: importok rendezése
+* Bandit: biztonsági hibák és sebezhetőségek
+
+* Ruff
+  * 10-100x gyorsabb, mint a Flake8 vagy Black
+  * `pyproject.toml` support
+  * Drop-in parity with Flake8, isort, and Black
+
+```sh
+pre-commit autoupdate --repo https://github.com/pycqa/isort
+```
+
+Visual Studio Code: Workspace Settings
+
+```json
+"editor.rulers": [79]
+```
+
+A black és a flake8 eltérő kódszélességi szabványt alkalmaz.
+Alapértelmezetten a black 88 karakteres sormaximumot állít be, míg a flake8 79 karaktert használ.
+
+A flake8 nem támogatja közvetlenül a `pyproject.toml` fájlon keresztüli konfigurálást, de helyette használhatod a .flake8
+konfigurációt.
+
+A black támogatja a `pyproject.toml` fájlon keresztüli konfigurálást:
+
+```toml
+[tool.black]
+line-length = 79
+```
+
+error: Library stubs not installed for "requests"  [import-untyped]
+note: Hint: "python3 -m pip install types-requests"
+note: (or run "mypy --install-types" to install all missing stub packages)
+note: See https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports
+
+isort és a black összeakad, mert a hosszú sort másképp formázzák:
+
+https://github.com/psf/black/issues/127
+
+Megoldás:
+
+```toml
+[tool.isort]
+multi_line_output=3
+include_trailing_comma=true
+```
+
+```sh
+mypy src
+```
+
+```sh
+pylint src
+```
+
+```sh
+bandit -c pyproject.toml -r test
+```
+
+### Ruff
+
+Markdown dokumentumokban lévő kódokat is tud kezelni
+
+### pre-commit
 
 [pre-commit](https://pre-commit.com/)
 
@@ -215,6 +285,56 @@ python -m pytest -v test/e2e/test_employees_ui.py
 ```sh
 pre-commit run --all-files
 ```
+
+`.pre-commit-config.yaml`
+
+```yaml
+-   repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+    -   id: black
+
+-   repo: https://github.com/PyCQA/flake8
+    rev: 7.1.1
+    hooks:
+    -   id: flake8
+
+-   repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+    -   id: isort
+```
+
+`pyproject.toml`
+
+```toml
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8",
+    "isort",
+]
+
+[tool.black]
+line-length = 79
+
+[tool.isort]
+multi_line_output=3
+include_trailing_comma=true
+```
+
+`.flake8`
+
+```toml
+[flake8]
+max-line-length = 79
+```
+
+#### pylint virtuális environmentben
+
+pylint lokálisan konfigurálandó, különben a hibaüzenet: `Unable to import '...' (import-error)`
+
+Ugyanis külön virtual environmentben dolgozik, és ott nincsenek a függőségek.
 
 ## Dokumentáció
 

@@ -19,8 +19,25 @@ dev = [
     "pytest",
     "pytest-mock",
     "requests",
+    "types-requests",
+    "types-WTForms",
     "selenium",
     "webdriver-manager",
     "pre-commit",
+    "mypy",
+    "pylint",
+    "bandit",
+    "ruff",
     "mkdocs"
 ]
+
+[tool.mypy]
+ignore_missing_imports = false
+
+[tool.pylint]
+disable = [
+    "C0114", "C0115", "C0116"
+]
+
+[tool.bandit.assert_used]
+skips = ['*/test_*.py']
