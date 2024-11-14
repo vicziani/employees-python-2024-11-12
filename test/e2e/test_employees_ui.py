@@ -1,13 +1,14 @@
+import os
+
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
-import os
 
 
 def test_create():
-    DEFAULT_URL = "http://localhost:5000"
-    url = os.getenv("EMPLOYEES_URL", DEFAULT_URL)
+    default_url = "http://localhost:5000"
+    url = os.getenv("EMPLOYEES_URL", default_url)
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     driver.get(url)

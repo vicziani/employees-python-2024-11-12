@@ -1,13 +1,7 @@
-from flask import (
-    Blueprint,
-    current_app,
-    flash,
-    redirect,
-    render_template,
-    request,
-    url_for,
-)
+from flask import (Blueprint, current_app, flash, redirect, render_template,
+                   request, url_for)
 from wtforms import Form, StringField, validators
+
 from . import repo
 
 employeesweb = Blueprint("employeesweb", __name__, template_folder="templates")

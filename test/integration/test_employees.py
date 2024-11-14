@@ -1,9 +1,10 @@
 import pytest
+
 from employees import app
 
 
-@pytest.fixture
-def client():
+@pytest.fixture(name="client")
+def fixture_client():
     with app.test_client() as client:
         yield client
 

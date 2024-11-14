@@ -5,9 +5,13 @@ from flask import current_app
 def sql(funct):
     def wrap_function(*args, **kwargs):
         host = current_app.config.get("DATABASE_HOST")
+        user = current_app.config.get("DATABASE_USER")
+        password = current_app.config.get("DATABASE_PASSWORD")
+        # https://github.com/pylint-dev/pylint/issues/5273
+        # pylint: disable=E1129
         with psycopg.connect(
-            user="employees",
-            password="employees",
+            user=user,
+            password=password,
             host=host,
             dbname="employees",
         ) as conn:
@@ -32,8 +36,8 @@ def find_all(conn=None):
     with conn.cursor() as cursor:
         cursor.execute("select id, emp_name from employees")
         employees = []
-        for id, name in cursor:
-            employees.append({"id": id, "name": name})
+        for emp_id, name in cursor:
+            employees.append({"id": emp_id, "name": name})
         return employees
 
 
@@ -45,8 +49,8 @@ def save(command, conn=None):
             (command["name"],),
         )
         conn.commit()
-        id = cursor.fetchone()[0]
-        return {"id": id, "name": command["name"]}
+        emp_id = cursor.fetchone()[0]
+        return {"id": emp_id, "name": command["name"]}
 
 
 @sql
