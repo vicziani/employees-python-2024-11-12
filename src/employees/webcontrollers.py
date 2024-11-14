@@ -1,5 +1,12 @@
-from flask import (Blueprint, current_app, flash, redirect, render_template,
-                   request, url_for)
+from flask import (
+    Blueprint,
+    current_app,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from wtforms import Form, StringField, validators
 
 from . import repo
@@ -29,6 +36,4 @@ def save_employee():
         return redirect(url_for("employeesweb.list_employees"))
     current_app.logger.error(f"Errors: {form._fields.get('name').errors}")
 
-    return render_template(
-        "employees.html", employees=repo.find_all(), form=form
-    )
+    return render_template("employees.html", employees=repo.find_all(), form=form)
