@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, jsonify, make_response, request
+from flask import Blueprint, jsonify, request
 from . import repo
 
 employeesrest = Blueprint("employees", __name__, template_folder="templates")

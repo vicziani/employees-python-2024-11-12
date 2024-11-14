@@ -2,8 +2,6 @@ from flask import (
     Blueprint,
     current_app,
     flash,
-    jsonify,
-    make_response,
     redirect,
     render_template,
     request,
@@ -37,4 +35,6 @@ def save_employee():
         return redirect(url_for("employeesweb.list_employees"))
     current_app.logger.error(f"Errors: {form._fields.get('name').errors}")
 
-    return render_template("employees.html", employees=repo.find_all(), form=form)
+    return render_template(
+        "employees.html", employees=repo.find_all(), form=form
+    )
