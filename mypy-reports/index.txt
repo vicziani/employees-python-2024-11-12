@@ -1,0 +1,19 @@
+Mypy Type Check Coverage Summary
+================================
+
+Script: index
+
++---------------------------+-------------------+---------+
+| Module                    | Imprecision       | Lines   |
++---------------------------+-------------------+---------+
+| employees                 |   5.00% imprecise |  40 LOC |
+| employees.repo            |  61.67% imprecise |  60 LOC |
+| employees.restcontrollers |  35.00% imprecise |  20 LOC |
+| employees.webcontrollers  |  38.46% imprecise |  39 LOC |
+| test_employees            |  50.00% imprecise |  16 LOC |
+| test_employees_api        |  50.00% imprecise |  16 LOC |
+| test_employees_ui         |  47.62% imprecise |  21 LOC |
+| test_restcontrollers      |  50.00% imprecise |  26 LOC |
++---------------------------+-------------------+---------+
+| Total                     |  42.02% imprecise | 238 LOC |
++---------------------------+-------------------+---------+

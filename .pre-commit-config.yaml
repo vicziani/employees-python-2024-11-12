@@ -15,9 +15,8 @@ repos:
     rev: v1.13.0
     hooks:
     -   id: mypy
-        additional_dependencies:
-        - "types-requests"
-        - "types-WTForms"
+        language: system
+        args: ["--junit-xml", "mypy_junit.xml"]        
 
 -   repo: local
     hooks:
@@ -26,6 +25,8 @@ repos:
         entry: pylint
         language: system
         files: ^(src/.*\.py$|test/.*\.py$)
+        args: ["--output-format=parseable"]
+        log_file: pylint_report.txt
 
 -   repo: https://github.com/PyCQA/bandit
     rev: 1.7.10
@@ -39,6 +40,6 @@ repos:
   hooks:
     # Run the linter.
     - id: ruff
-      args: [ --fix ]
+      args: ["--fix", "-o", "ruff_report.json", "--output-format", "json" ]
     # Run the formatter.
     - id: ruff-format

@@ -180,6 +180,21 @@ Tesztek futtathatók Visual Studio Code-ból
 
 Visual Studio Code: Testing / Configure Python Tests
 
+### Coverage
+
+pytest-cov
+
+```toml
+[project.optional-dependencies]
+dev = [
+    "pytest-cov",
+]
+```
+
+```sh
+pytest --cov=employees --cov-report=xml -v test/unit
+```
+
 ### Integrációs tesztek
 
 ```sh
@@ -206,7 +221,9 @@ python -m pytest -v test/e2e/test_employees_ui.py
 
 ## Statikus kódellenőrzés
 
-## Statikus kódellenőrző eszközök
+### Statikus kódellenőrző eszközök
+
+Elterjedtek:
 
 * Black: kódformázás
 * Flake8: PEP8 és clean code
@@ -215,10 +232,17 @@ python -m pytest -v test/e2e/test_employees_ui.py
 * isort: importok rendezése
 * Bandit: biztonsági hibák és sebezhetőségek
 
+Kevésbé elterjedtek:
+
+* [pydocstyle](https://www.pydocstyle.org/en/stable/): Python docstring konvenciók [PEP 257](http://www.python.org/dev/peps/pep-0257/) ellenőrzésére
+* [pyupgrade](https://github.com/asottile/pyupgrade): újabb nyelvi elemekre konvertál
+
+Újabb versenyző:
+
 * Ruff
   * 10-100x gyorsabb, mint a Flake8 vagy Black
   * `pyproject.toml` support
-  * Drop-in parity with Flake8, isort, and Black
+  * Replace Flake8 (plus dozens of plugins), Black, isort, pydocstyle, pyupgrade, autoflake, stb.
 
 ```sh
 pre-commit autoupdate --repo https://github.com/pycqa/isort
@@ -274,6 +298,10 @@ bandit -c pyproject.toml -r test
 
 ### Ruff
 
+[Ruff](https://docs.astral.sh/ruff/)
+
+VSVisual Studio Code extension: Ruff
+
 Markdown dokumentumokban lévő kódokat is tud kezelni
 
 ### pre-commit
@@ -287,6 +315,16 @@ Markdown dokumentumokban lévő kódokat is tud kezelni
 ```sh
 pre-commit run --all-files
 ```
+
+Ha csak valamelyik hookot akarjuk lefuttatni:
+
+```sh
+pre-commit run mypy --all-files
+```
+
+Alapból minden toolt saját virtual environmentben futtat. Ha azt akarjuk, hogy a
+már létrehozott virtual environmentben fusson, akkor kell a `language: system`
+alkalmazása.
 
 `.pre-commit-config.yaml`
 
@@ -338,7 +376,35 @@ pylint lokálisan konfigurálandó, különben a hibaüzenet: `Unable to import 
 
 Ugyanis külön virtual environmentben dolgozik, és ott nincsenek a függőségek.
 
+#### Bekötés CI/CD-be
+
+Javaslata: [pre-commit ci](https://pre-commit.ci/)
+
+### SonarQube
+
+```sh
+docker run --name my-sonarqube -d -p 9000:9000 sonarqube:lts
+```
+
+Jelszó használata deprecated! Tokent kéne használni!
+
+https://docs.sonarsource.com/sonarqube/latest/analyzing-source-code/importing-external-issues/external-analyzer-reports/
+
+```sh
+docker run --rm -e SONAR_HOST_URL="http://host.docker.internal:9000" -v ".:/usr/src" sonarsource/sonar-scanner-cli
+```
+
+Ruff: JSON riportban abszolút fájlnevek vannak
+
+https://github.com/astral-sh/ruff/issues/7551
+
 ## Dokumentáció
+
+pdoc
+
+```sh
+pdoc -d restructuredtext -o .\build\docs employees
+```
 
 MkDocs
 
@@ -368,6 +434,24 @@ gh auth login
 
 Javasolt Visual Studio Code extension: GitHub Actions
 
+* VM (hosted v. self-hosted), containers
+* Matrix build
+* Integráció a GitHub repository-kkal, és GitHub Packages-zel, Package Registry-vel
+
+* Event, workflow, job, step
+* Step: script vagy action (újrafelhasználható komponens) futtatása
+
+* Jobok
+  * Ugyanaz a runner futtatja a step-eket
+  * Jobok futhatnak egymás után vagy párhuzamosan
+  * Lehet közöttük függőséget definiálni
+
+Event:
+
+* Creates a pull request
+* Opens an issue,
+* Pushes a commit to a repository
+
 ### Act
 
 ```sh
@@ -394,3 +478,12 @@ echo ".venv/bin" >> $GITHUB_PATH
 ```
 
 * Viszont be kell állítani, hogy innentől ezt a könyvtárat kell cache-elni, valamint hogy mely állományok változásakor kell update-elni a cache-t
+
+### GitHub Actions annotations
+
+https://github.com/orgs/community/discussions/26703
+
+### További eszközök
+
+* [pipx](https://github.com/pypa/pipx): minden eszköznek saját virtual environmentet épít, és abban futtatja, nem akad össze a függősége a projekt függőségével
+* tox: environment orchestrator, külön környezet tesztelésre, statikus kódellenőrzésre, dokumentum generálásra, build és publishing tools használatára

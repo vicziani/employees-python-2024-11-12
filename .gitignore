@@ -1,8 +1,21 @@
-.pytest_cache
+.vscode
+
+venv
+
 __pycache__
 *.egg-info
-venv
+
+.pytest_cache
+
+.coverage
+coverage.xml
+
+.mypy_cache
+mypy_junit.xml
+
+.ruff_cache
+
 build
 dist
 
-.vscode
+ruff_report.json

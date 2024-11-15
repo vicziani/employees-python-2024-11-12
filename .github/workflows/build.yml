@@ -1,6 +1,9 @@
 name: Employees Build
 on:
-    push
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
 jobs:
     build:
         name: Build binary

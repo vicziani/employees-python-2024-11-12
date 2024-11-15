@@ -1,0 +1,8 @@
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+
+************* Module employees.restcontrollers
+src\employees\restcontrollers.py:10: [W0612(unused-variable), info] Unused variable 'x'
+
+------------------------------------------------------------------
+Your code has been rated at 9.84/10 (previous run: 9.84/10, +0.00)

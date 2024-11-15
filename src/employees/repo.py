@@ -1,3 +1,7 @@
+"""
+.. include:: ../../docs/src/repo.md
+"""
+
 import psycopg
 from flask import current_app
 
@@ -43,6 +47,7 @@ def find_all(conn=None):
 
 @sql
 def save(command, conn=None):
+    """Save an employee"""
     with conn.cursor() as cursor:
         cursor.execute(
             "insert into employees(emp_name) values (%s) returning id",

@@ -18,17 +18,20 @@ dev = [
     "build",
     "pytest",
     "pytest-mock",
+    "pytest-cov",
     "requests",
     "types-requests",
     "types-WTForms",
     "selenium",
     "webdriver-manager",
     "pre-commit",
+    "lxml",
     "mypy",
     "pylint",
     "bandit",
     "ruff",
-    "mkdocs"
+    "mkdocs",
+    "pdoc"
 ]
 
 [tool.mypy]
