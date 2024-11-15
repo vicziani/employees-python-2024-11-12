@@ -10,7 +10,8 @@ version = "1.0.0"
 dependencies = [
     "Flask",
     "psycopg[binary,pool]",
-    "Flask-WTF"
+    "Flask-WTF",
+    "gunicorn"
 ]
 
 [project.optional-dependencies]
@@ -31,6 +32,7 @@ dev = [
     "bandit",
     "ruff",
     "mkdocs",
+    "mkdocs_puml",
     "pdoc"
 ]
 
@@ -44,3 +46,6 @@ disable = [
 
 [tool.bandit.assert_used]
 skips = ['*/test_*.py']
+
+[tool.setuptools.package-data]
+employees = ["templates/*.html"]

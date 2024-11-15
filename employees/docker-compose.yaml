@@ -1,0 +1,99 @@
+services:
+  postgres:
+    image: postgres
+    expose:
+      - 5432
+    environment:
+      POSTGRES_DB: employees
+      POSTGRES_USER: employees
+      POSTGRES_PASSWORD: employees
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U employees -d employees'"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+
+  employees-app:
+    image: employees
+    depends_on:
+      postgres:
+        condition: service_healthy
+    expose:
+      - 5000
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_USER: employees
+      DATABASE_PASSWORD: employees
+    ports:
+      - "5000:5000"
+    healthcheck:
+      test: curl --fail http://localhost:5000 || exit 1
+      interval: 5s
+      retries: 3
+      timeout: 30s
+
+  api-test:
+    profiles:
+      - api-test
+    image: employees-test
+    depends_on:
+      employees-app:
+        condition: service_healthy
+    environment:
+      EMPLOYEES_URL: http://employees-app:5000/
+    command: python -m pytest -v test/e2e/test_employees_api.py
+
+  selenium-hub:
+    profiles:
+      - ui-test
+    image: selenium/hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+    environment:
+      # https://github.com/SeleniumHQ/docker-selenium/issues/2355
+      SE_ENABLE_TRACING: false
+
+  chrome:
+    profiles:
+      - ui-test
+    image: selenium/node-chrome
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      SE_EVENT_BUS_HOST: selenium-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+      SE_ENABLE_TRACING: false
+    expose:
+      - "5900"
+    privileged: true
+
+  chrome-video:
+    profiles:
+      - ui-test
+    image: selenium/video
+    volumes:
+      - ./videos:/videos
+    depends_on:
+      - chrome
+    environment:
+      DISPLAY_CONTAINER_NAME: chrome
+      FILE_NAME: chrome-video.mp4
+
+  ui-test:
+    profiles:
+      - ui-test
+    image: employees-test
+    depends_on:
+      employees-app:
+        condition: service_healthy
+    environment:
+      EMPLOYEES_URL: http://employees-app:5000/
+      SELENIUM_DRIVER: RemoteWebDriver
+      SELENIUM_HUB_URL: http://selenium-hub:4444/wd/hub
+    command: python -m pytest -v test/e2e/test_employees_ui.py
+

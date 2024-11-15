@@ -1,2 +1,9 @@
 site_name: Employees
 theme: readthedocs
+plugins:
+    - plantuml:
+        puml_url: https://www.plantuml.com/plantuml/
+        num_workers: 8
+        theme:
+          enabled: false
+docs_dir: docs/mkdocs

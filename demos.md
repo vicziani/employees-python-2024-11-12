@@ -408,9 +408,52 @@ pdoc -d restructuredtext -o .\build\docs employees
 
 MkDocs
 
+Alt + D
+
+```sh
+mkdocs serve
+```
+
+```sh
+mkdocs build
+```
+
+### PlantUML
+
 VSCode Extension: PlantUML
 
-Alt + D
+mkdocs_puml
+
+Saját belső PlantUML szerver is használható, Dockerben indítható.
+
+## Docker
+
+```sh
+docker build -t employees .
+```
+
+```sh
+docker run -d -p 5000:5000 --name my-employees employees
+```
+
+Gunicorn
+
+```sh
+docker compose up -d
+```
+
+```sh
+docker build -t employees-test -f Dockerfile.test .
+```
+
+```sh
+docker compose --profile api-test up --abort-on-container-exit
+```
+
+```sh
+docker compose --profile ui-test up --abort-on-container-exi
+```
+
 
 ## GitHub push
 
