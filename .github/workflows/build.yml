@@ -27,27 +27,47 @@ jobs:
           #   run: python -m pytest -v test/unit/
           - name: Build
             run: python -m build
-          - name: Create Docker image
-            run: docker build -t employees .
-          - name: Create test Docker image
-            run: docker build -t employees-test -f Dockerfile.test .
+          # - name: Create Docker image
+          #   run: docker build -t employees .
+          # - name: Create test Docker image
+          #   run: docker build -t employees-test -f Dockerfile.test .
           # - name: Run E2E tests
           #   working-directory: ./employees
           #   run: docker compose --profile api-test up --abort-on-container-exit
-          - name: Log in to the Container registry
-            uses: docker/login-action@v3
+          # - name: Log in to the Container registry
+          #   uses: docker/login-action@v3
+          #   with:
+          #     registry: ghcr.io
+          #     username: ${{ github.actor }}
+          #     password: ${{ secrets.GITHUB_TOKEN }}
+          # - name: Generate Docker image metadata
+          #   id: meta
+          #   uses: docker/metadata-action@v5
+          #   with:
+          #     images: ghcr.io/${{ github.repository }}    
+          # - name: Build and push Docker image
+          #   uses: docker/build-push-action@v4
+          #   with:
+          #     context: .
+          #     push: true
+          #     tags: ${{ steps.meta.outputs.tags }}
+          - name: Build static files
+            run: mkdocs build
+          - name: Upload static files as artifact
+            id: deployment
+            uses: actions/upload-pages-artifact@v3
             with:
-              registry: ghcr.io
-              username: ${{ github.actor }}
-              password: ${{ secrets.GITHUB_TOKEN }}
-          - name: Generate Docker image metadata
-            id: meta
-            uses: docker/metadata-action@v4
-            with:
-              images: ghcr.io/${{ github.repository }}    
-          - name: Build and push Docker image
-            uses: docker/build-push-action@v4
-            with:
-              context: .
-              push: true
-              tags: ${{ steps.meta.outputs.tags }}
+              path: site/
+
+  deploy:
+      needs: build
+      environment:
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy to GitHub Pages
+          id: deployment
+          uses: actions/deploy-pages@v4
+                          
+    
