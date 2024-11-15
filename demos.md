@@ -526,6 +526,10 @@ echo ".venv/bin" >> $GITHUB_PATH
 
 https://github.com/orgs/community/discussions/26703
 
+### GitHub Pages
+
+Settings / Pages: Source: GitHub Actions
+
 ### További eszközök
 
 * [pipx](https://github.com/pypa/pipx): minden eszköznek saját virtual environmentet épít, és abban futtatja, nem akad össze a függősége a projekt függőségével
