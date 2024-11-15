@@ -6,8 +6,8 @@ employeesrest = Blueprint("employees", __name__, template_folder="templates")
 
 
 @employeesrest.route("/info")
-def info() -> int:
-    x = 0
+def info():  # -> int
+    # x = 0
     return jsonify({"status": "on"})
 
 

@@ -13,6 +13,8 @@ coverage.xml
 .mypy_cache
 mypy_junit.xml
 
+pylint_report.txt
+
 .ruff_cache
 
 build

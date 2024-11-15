@@ -16,7 +16,7 @@ repos:
     hooks:
     -   id: mypy
         language: system
-        args: ["--junit-xml", "mypy_junit.xml"]        
+        args: ["--junit-xml", "mypy_junit.xml"]
 
 -   repo: local
     hooks:
